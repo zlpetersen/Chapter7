@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 #include <array>
+#include <limits>
+#include <iomanip>
+#include <ios>
 
 using std::cout;
 using std::cin;
@@ -10,7 +13,7 @@ using std::string;
 const int SCAMT = 10;
 struct box
 {
-    char maker[40];
+    string maker;
     float height;
     float width;
     float length;
@@ -28,7 +31,7 @@ bool isNum(const std::string&);
 void displayBox(box);
 void volumeBox(box*);
 void boxCaller();
-int factorial(int);
+double factorial(int);
 void factorialCaller();
 int fillArray(double[], int);
 void showArray(double[], int);
@@ -66,9 +69,10 @@ int main()
         {
         case 0: pairZero(); showMenu();  break;
         case 1: golfScores(); showMenu(); break;
-        case 2: factorialCaller(); showMenu(); break;
-        case 3: arrayCaller(); showMenu(); break;
-        case 4: calculateCaller(); showMenu(); break;
+        case 2: boxCaller(); showMenu(); break;
+        case 3: factorialCaller(); showMenu(); break;
+        case 4: arrayCaller(); showMenu(); break;
+        case 5: calculateCaller(); showMenu(); break;
         default: cout << "Please enter a valid input\n"; showMenu(); break;
         }
     }
@@ -85,7 +89,7 @@ void ignore()
 
 void showMenu()
 {
-    cout << "0) Harmonic Mean\n1) Golf Scores\n2) Factorial\n3) Reverse Array\n4) Calculator\nq) Quit\n>";
+    cout << "0) Harmonic Mean\n1) Golf Scores\n2) Box Volume\n3) Factorial\n4) Reverse Array\n5) Calculator\nq) Quit\n>";
 }
 
 
@@ -196,11 +200,11 @@ bool isDouble(const std::string &str)
 
 void displayBox(box b)
 {
-    cout << b.maker << "\n";
-    cout << b.height << "\n";
-    cout << b.width << "\n";
-    cout << b.length << "\n";
-    cout << b.volume << "\n";
+    cout << "name: " << b.maker << "\n";
+    cout << "height: " << b.height << "\n";
+    cout << "width: " << b.width << "\n";
+    cout << "length: " << b.length << "\n";
+    cout << "volume: " << b.volume << "\n";
 }
 
 
@@ -212,18 +216,23 @@ void volumeBox(box* b)
 
 void boxCaller()
 {
-    box b{ "this is a box", 5, 4, 3, 0 };
-    cout << "Box before volume:\n";
-    displayBox(b);
+    cout << "Name your box: ";
+    string name;
+    cin >> name;
+    cout << "Enter the length, width, and height of the box: ";
+    int x, y, z;
+    cin >> x >> y >> z;
+    box b{ name, x, y, z, 0 };
     volumeBox(&b);
-    cout << "Box after volume:\n";
+    cout << "Box:\n";
     displayBox(b);
+    ignore();
 }
 
 
-int factorial(int x)
+double factorial(int x)
 {
-    int result = x;
+    long long result = x;
     for (int i = 1; i < x; i++)
     {
         result *= x - i;
@@ -244,8 +253,9 @@ void factorialCaller()
         x = atoi(xs.c_str());
         if (x < 0)
             break;
-        int fact = factorial(x);
-        cout << "Factorial: " << fact << "\n";
+        double fact = factorial(x);
+        cout << "Factorial: ";
+        printf("%.4g \n", fact);
         cout << "Enter an integer (non-numeric or negative to quit): ";
     }
 }
